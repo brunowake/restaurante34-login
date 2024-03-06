@@ -64,7 +64,7 @@ resource "aws_lambda_function" "terraform_singUp" {
 
 resource "aws_lambda_function" "terraform_singIn" {
   function_name = "signUp"
-  filename      = "signUp.zip"
+  filename      = "signIn.zip"
   runtime = "nodejs20.x"
   handler = "index.handler"
   source_code_hash = data.archive_file.lambda_terraform_signIn.output_base64sha256
@@ -73,7 +73,7 @@ resource "aws_lambda_function" "terraform_singIn" {
 
 resource "aws_lambda_function" "terraform_confirm_signUp" {
   function_name = "signUp"
-  filename      = "signUp.zip"
+  filename      = "confirmSignUp.zip"
   runtime = "nodejs20.x"
   handler = "index.handler"
   source_code_hash = data.archive_file.lambda_terraform_confirm_signUp.output_base64sha256
