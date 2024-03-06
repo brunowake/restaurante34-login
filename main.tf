@@ -8,12 +8,12 @@ terraform {
     }
   }
 
-  backend "remote" {
+  cloud {
     organization = "restaurante34"
+
     workspaces {
-      name = "restaurante34-login"
+      name = "restaurante34"
     }
-    
   }
 
 }
