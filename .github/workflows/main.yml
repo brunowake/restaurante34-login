@@ -19,13 +19,6 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-      - name: npm install
-        working-directory: ./
-        env:
-          CI: true
-        run: |
-          pwd
-          npm ci --only=prod
       - uses: hashicorp/setup-terraform@v2
       - name: Terraform init
         id: init
