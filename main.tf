@@ -21,7 +21,7 @@ data "archive_file" "lambda_terraform_login" {
 }
 
 # to Create function
-resource "aws_lambda_function" "terraform_test" {
+resource "aws_lambda_function" "terraform_login" {
   function_name = "signUp"
   filename      = "signUp.zip"
   runtime = "nodejs20.x"
