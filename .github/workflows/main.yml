@@ -20,6 +20,10 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
       - uses: hashicorp/setup-terraform@v2
+      - name: Configure Terraform Cloud credentials
+        run: terraform login -token=${TF_API_TOKEN}
+        env:
+          TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
       - name: Terraform init
         id: init
         run: terraform init

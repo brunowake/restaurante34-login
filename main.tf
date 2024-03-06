@@ -8,6 +8,14 @@ terraform {
     }
   }
 
+  backend "remote" {
+    organization = "restaurante34"
+    workspaces {
+      name = "restaurante34-login"
+    }
+    
+  }
+
 }
 provider "aws" {
   region  = "us-east-1"
