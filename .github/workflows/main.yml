@@ -21,7 +21,7 @@ jobs:
           aws-region: us-east-1
       - uses: hashicorp/setup-terraform@v2
       - name: Configure Terraform Cloud credentials
-        run: terraform login -token=${TF_API_TOKEN}
+        run: echo "credentials \"app.terraform.io\" { token = \"${TF_API_TOKEN}\" }" >> ~/.terraformrc
         env:
           TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
       - name: Terraform init
