@@ -17,8 +17,52 @@ terraform {
   }
 
 }
+resource "aws_api_gateway_rest_api" "restaurante34-api" {
+  name = "restaurante34-api" 
+}
 
+resource "aws_api_gateway_resource" "restaurante34-api_resource" {
+  rest_api_id = aws_api_gateway_rest_api.restaurante34-api.id
+  parent_id   = aws_api_gateway_rest_api.restaurante34-api.root_resource_id
+  path_part   = "restaurante34"  
+}
 
+resource "aws_api_gateway_method" "restaurante34-api_method" {
+  rest_api_id   = aws_api_gateway_rest_api.restaurante34-api.id
+  resource_id   = aws_api_gateway_resource.restaurante34-api_resource.id
+  http_method   = "POST"  
+  authorization = "NONE" 
+}
+
+resource "aws_api_gateway_integration" "restaurante34-api_integration" {
+  rest_api_id = aws_api_gateway_rest_api.restaurante34-api.id
+  resource_id = aws_api_gateway_resource.restaurante34-api_resource.id
+  http_method = aws_api_gateway_method.restaurante34-api_method.http_method
+  type        = "AWS_PROXY"
+  integration_http_method = "POST"
+  uri         = aws_lambda_function.terraform_singUp.invoke_arn
+}
+
+resource "aws_lambda_permission" "terraform_lambda_permission" {
+  statement_id  = "AllowAPIGatewayInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.terraform_singUp.function_name
+  principal     = "apigateway.amazonaws.com"
+
+  source_arn = "${aws_api_gateway_rest_api.restaurante34-api.execution_arn}/*/*"
+}
+
+variable "AWS_ACCESS_KEY_ID" {
+   type = string
+}
+
+variable "AWS_SECRET_ACCESS_KEY" {
+   type = string
+}
+
+variable "AWS_COGNITO_CLIENT_ID" {
+   type = string
+}
 provider "aws" {
   region  = "us-east-1"
   access_key = var.AWS_ACCESS_KEY_ID
@@ -57,7 +101,7 @@ resource "aws_lambda_function" "terraform_singUp" {
 
   environment {
       variables = {
-        "clientId" = var.AWS_COGNITO_CLIENT_ID
+        "clienteID" = var.AWS_COGNITO_CLIENT_ID
       }
   }
 }
@@ -71,7 +115,7 @@ resource "aws_lambda_function" "terraform_singIn" {
   role             = aws_iam_role.lambda_exec.arn
   environment {
       variables = {
-        "clientId" = var.AWS_COGNITO_CLIENT_ID
+        "clienteID" = var.AWS_COGNITO_CLIENT_ID
       }
   }
 }
@@ -86,7 +130,7 @@ resource "aws_lambda_function" "terraform_confirm_signUp" {
 
   environment {
       variables = {
-        "clientId" = var.AWS_COGNITO_CLIENT_ID
+        "clienteID" = var.AWS_COGNITO_CLIENT_ID
       }
   }
 }
