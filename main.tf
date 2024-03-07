@@ -155,3 +155,7 @@ resource "aws_iam_user_policy_attachment" "api_gateway_access_attachment" {
   user       = aws_iam_user.restaurante34-cicd.name
   policy_arn = aws_iam_policy.api_gateway_access_policy.arn
 }
+
+resource "aws_iam_user" "restaurante34-cicd" {
+  name = "restaurante34-cicd"
+}
