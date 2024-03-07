@@ -101,7 +101,7 @@ resource "aws_lambda_function" "terraform_singUp" {
 
   environment {
       variables = {
-        "clientId" = var.AWS_COGNITO_CLIENT_ID
+        "clienteID" = var.AWS_COGNITO_CLIENT_ID
       }
   }
 }
@@ -115,7 +115,7 @@ resource "aws_lambda_function" "terraform_singIn" {
   role             = aws_iam_role.lambda_exec.arn
   environment {
       variables = {
-        "clientId" = var.AWS_COGNITO_CLIENT_ID
+        "clienteID" = var.AWS_COGNITO_CLIENT_ID
       }
   }
 }
@@ -130,7 +130,7 @@ resource "aws_lambda_function" "terraform_confirm_signUp" {
 
   environment {
       variables = {
-        "clientId" = var.AWS_COGNITO_CLIENT_ID
+        "clienteID" = var.AWS_COGNITO_CLIENT_ID
       }
   }
 }
