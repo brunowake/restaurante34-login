@@ -157,8 +157,8 @@ resource "aws_iam_policy_attachment" "api_gateway_access_attachment" {
   policy_arn = aws_iam_policy.api_gateway_access_policy.arn
 }
 
-resource "aws_apigatewayv2_stage" "prod_stage" {
-  api_id    = aws_api_gateway_rest_api.restaurante34-api.id
-  name      = "prod-stage"
-  auto_deploy = true // Set to false if you want to manually deploy changes to the stage
+resource "aws_api_gateway_stage" "prod_stage" {
+  rest_api_id = aws_api_gateway_rest_api.restaurante34-api.id
+  stage_name  = "prod"
+  deployment_id = aws_api_gateway_deployment.prod_deployment.id
 }
