@@ -135,3 +135,23 @@ resource "aws_iam_role_policy_attachment" "lambda_policy" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
+resource "aws_iam_policy" "api_gateway_access_policy" {
+  name        = "api_gateway_access_policy"
+  description = "Allows access to API Gateway resources"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = "apigateway:GET"
+        Resource = "arn:aws:apigateway:us-east-1::/restapis/sxxs67mloi/resources/tcpqt2/methods/POST/integration"
+      },
+    ]
+  })
+}
+
+resource "aws_iam_user_policy_attachment" "api_gateway_access_attachment" {
+  user       = aws_iam_user.restaurante34-cicd.name
+  policy_arn = aws_iam_policy.api_gateway_access_policy.arn
+}
