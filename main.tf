@@ -58,7 +58,7 @@ resource "aws_api_gateway_method" "restaurante34-api_signIn_method" {
 
 resource "aws_api_gateway_integration" "restaurante34-api_signIn_integration" {
   rest_api_id = aws_api_gateway_rest_api.restaurante34-api.id
-  resource_id = aws_api_gateway_resource.restaurante34-api_signIn_method.id
+  resource_id = aws_api_gateway_resource.restaurante34-api_signIn_resource.id
   http_method = aws_api_gateway_method.restaurante34-api_signIn_method.http_method
   type        = "AWS_PROXY"
   integration_http_method = "POST"
