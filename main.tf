@@ -33,7 +33,6 @@ resource "aws_api_gateway_method" "restaurante34-api_signUp_method" {
   http_method   = "POST"  
   authorization = "NONE" 
 }
-
 resource "aws_api_gateway_integration" "restaurante34-api_signUp_integration" {
   rest_api_id = aws_api_gateway_rest_api.restaurante34-api.id
   resource_id = aws_api_gateway_resource.restaurante34-api_signUp_resource.id
@@ -88,7 +87,7 @@ resource "aws_api_gateway_integration" "restaurante34-api_confirmSignUp_integrat
   uri         = aws_lambda_function.terraform_confirm_signUp.invoke_arn
 }
 
-resource "aws_lambda_permission" "terraform_lambda_permission" {
+resource "aws_lambda_permission" "terraform_lambda_permission_signUp" {
   statement_id  = "AllowAPIGatewayInvoke"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.terraform_singUp.function_name
@@ -97,6 +96,23 @@ resource "aws_lambda_permission" "terraform_lambda_permission" {
   source_arn = "${aws_api_gateway_rest_api.restaurante34-api.execution_arn}/*/*"
 }
 
+resource "aws_lambda_permission" "terraform_lambda_permission_signIn" {
+  statement_id  = "AllowAPIGatewayInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.terraform_singIn.function_name
+  principal     = "apigateway.amazonaws.com"
+
+  source_arn = "${aws_api_gateway_rest_api.restaurante34-api.execution_arn}/*/*"
+}
+
+resource "aws_lambda_permission" "terraform_lambda_permission_confirmSignUp" {
+  statement_id  = "AllowAPIGatewayInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.terraform_confirm_signUp.function_name
+  principal     = "apigateway.amazonaws.com"
+
+  source_arn = "${aws_api_gateway_rest_api.restaurante34-api.execution_arn}/*/*"
+}
 variable "AWS_ACCESS_KEY_ID" {
    type = string
 }
