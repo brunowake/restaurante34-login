@@ -21,23 +21,45 @@ resource "aws_api_gateway_rest_api" "restaurante34-api" {
   name = "restaurante34-api" 
 }
 
-resource "aws_api_gateway_resource" "restaurante34-api_resource" {
+resource "aws_api_gateway_resource" "restaurante34-api_signUp_resource" {
   rest_api_id = aws_api_gateway_rest_api.restaurante34-api.id
   parent_id   = aws_api_gateway_rest_api.restaurante34-api.root_resource_id
-  path_part   = "restaurante34"  
+  path_part   = "signUp"  
 }
 
-resource "aws_api_gateway_method" "restaurante34-api_method" {
+resource "aws_api_gateway_method" "restaurante34-api_signUp_method" {
   rest_api_id   = aws_api_gateway_rest_api.restaurante34-api.id
   resource_id   = aws_api_gateway_resource.restaurante34-api_resource.id
   http_method   = "POST"  
   authorization = "NONE" 
 }
 
-resource "aws_api_gateway_integration" "restaurante34-api_integration" {
+resource "aws_api_gateway_integration" "restaurante34-api_signUp_integration" {
   rest_api_id = aws_api_gateway_rest_api.restaurante34-api.id
-  resource_id = aws_api_gateway_resource.restaurante34-api_resource.id
-  http_method = aws_api_gateway_method.restaurante34-api_method.http_method
+  resource_id = aws_api_gateway_resource.restaurante34-api_signUp_resource.id
+  http_method = aws_api_gateway_method.restaurante34-api_signUp_method.http_method
+  type        = "AWS_PROXY"
+  integration_http_method = "POST"
+  uri         = aws_lambda_function.terraform_singUp.invoke_arn
+}
+
+resource "aws_api_gateway_resource" "restaurante34-api_signIn_resource" {
+  rest_api_id = aws_api_gateway_rest_api.restaurante34-api.id
+  parent_id   = aws_api_gateway_rest_api.restaurante34-api.root_resource_id
+  path_part   = "signIn"  
+}
+
+resource "aws_api_gateway_method" "restaurante34-api_signIn_method" {
+  rest_api_id   = aws_api_gateway_rest_api.restaurante34-api.id
+  resource_id   = aws_api_gateway_resource.restaurante34-api_signIn_resource.id
+  http_method   = "POST"  
+  authorization = "NONE" 
+}
+
+resource "aws_api_gateway_integration" "restaurante34-api_signIn_integration" {
+  rest_api_id = aws_api_gateway_rest_api.restaurante34-api.id
+  resource_id = aws_api_gateway_resource.restaurante34-api_signIn_method.id
+  http_method = aws_api_gateway_method.restaurante34-api_signIn_method.http_method
   type        = "AWS_PROXY"
   integration_http_method = "POST"
   uri         = aws_lambda_function.terraform_singUp.invoke_arn
