@@ -50,7 +50,7 @@ export const handler = async (event) => {
       throw new Error('Network response was not ok');
     }
 
-    return { statusCode: 200, body: JSON.stringify({ "dataSuccess": response }) };
+    return { statusCode: 200, body: JSON.stringify({ "dataSuccess": "criado com sucesso" }) };
   } catch (error) {
     console.error('Error registering user:', error);
     return { statusCode: 500, body: JSON.stringify({ error: error.message }) };
