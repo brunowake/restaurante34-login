@@ -40,29 +40,27 @@ export const handler = async (event) => {
     }
   };
 
-  const handleResponse = (resolve, reject) => {
-    return (res) => {
-      let data = '';
-
-      res.on('data', (chunk) => {
-        data += chunk;
-      });
-
-      res.on('end', () => {
-        resolve(data);
-      });
-
-      res.on('error', (error) => {
-        reject(error);
-      });
-    }
-  };
 
   try {
     // await cognitoIdentityProvider.signUp(params);
 
     const request = await new Promise((resolve, reject) => {
-      const req = http.request(apiUrl, requestOptions, handleResponse(resolve, reject))
+      const req = http.request(apiUrl, requestOptions, (res) => {
+        let data = '';
+
+        res.on('data', (chunk) => {
+          data += chunk;
+        });
+
+        res.on('end', () => {
+          resolve(data);
+        });
+
+        res.on('error', (error) => {
+          reject(error);
+        });
+      })
+
 
       req.write(postData);
       req.end();
