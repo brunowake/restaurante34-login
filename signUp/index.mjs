@@ -1,5 +1,4 @@
 import { CognitoIdentityProvider } from "@aws-sdk/client-cognito-identity-provider";
-import * as http from 'http';
 
 export const handler = async (event) => {
   const cognitoIdentityProvider = new CognitoIdentityProvider({ region: 'us-east-1' });
@@ -37,34 +36,19 @@ export const handler = async (event) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-    }
+    },
+    body: postData,
   };
 
 
   try {
     // await cognitoIdentityProvider.signUp(params);
 
-    const request = await new Promise((resolve, reject) => {
-      const req = http.request(apiUrl, requestOptions, (res) => {
-        let data = '';
+    const response = await fetch(apiUrl, requestOptions);
 
-        res.on('data', (chunk) => {
-          data += chunk;
-        });
-
-        res.on('end', () => {
-          resolve(data);
-        });
-
-        res.on('error', (error) => {
-          reject(error);
-        });
-      })
-
-
-      req.write(postData);
-      req.end();
-    });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
 
     return { statusCode: 200, body: JSON.stringify({ "dataSuccess": request }) };
   } catch (error) {
