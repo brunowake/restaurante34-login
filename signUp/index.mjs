@@ -1,9 +1,11 @@
 import { CognitoIdentityProvider } from "@aws-sdk/client-cognito-identity-provider";
+import * as https from 'https';
 
 export const handler = async (event) => {
   const cognitoIdentityProvider = new CognitoIdentityProvider({ region: 'us-east-1' });
   const { username, password, name, email, cpf } = JSON.parse(event.body);
   const clienteID = process.env.clienteID;
+  const apiUrl = process.env.API_URL;
 
   const params = {
     ClientId: clienteID,
@@ -25,9 +27,48 @@ export const handler = async (event) => {
     ]
   };
 
+  const postData = JSON.stringify({
+    name,
+    email,
+    cpf,
+    usuario: {
+      "login": username,
+      "senha": password,
+    }
+  })
+
+  const requestOptions = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  };
+
   try {
-    const data = await cognitoIdentityProvider.signUp(params);
-    return { statusCode: 200, body: JSON.stringify(data) };
+    await cognitoIdentityProvider.signUp(params);
+
+    const request = await new Promise((resolve, reject) => {
+      const req = https.request(apiUrl, requestOptions, (res) => {
+        let data = '';
+
+        res.on('data', (chunk) => {
+          data += chunk;
+        });
+
+        res.on('end', () => {
+          resolve(data);
+        });
+      });
+
+      req.on('error', (error) => {
+        reject(error);
+      });
+
+      req.write(postData);
+      req.end();
+    });
+
+    return { statusCode: 200, body: JSON.stringify(request) };
   } catch (error) {
     console.error('Error registering user:', error);
     return { statusCode: 500, body: JSON.stringify({ error: error.message }) };

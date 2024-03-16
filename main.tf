@@ -124,6 +124,10 @@ variable "AWS_SECRET_ACCESS_KEY" {
 variable "AWS_COGNITO_CLIENT_ID" {
    type = string
 }
+variable "API_URL" {
+   type = string
+}
+
 provider "aws" {
   region  = "us-east-1"
   access_key = var.AWS_ACCESS_KEY_ID
@@ -162,7 +166,8 @@ resource "aws_lambda_function" "terraform_singUp" {
 
   environment {
       variables = {
-        "clienteID" = var.AWS_COGNITO_CLIENT_ID
+        "clienteID" = var.AWS_COGNITO_CLIENT_ID,
+        "apiUrl" = var.API_URL
       }
   }
 }
@@ -176,7 +181,8 @@ resource "aws_lambda_function" "terraform_singIn" {
   role             = aws_iam_role.lambda_exec.arn
   environment {
       variables = {
-        "clienteID" = var.AWS_COGNITO_CLIENT_ID
+        "clienteID" = var.AWS_COGNITO_CLIENT_ID,
+        "apiUrl" = var.API_URL
       }
   }
 }
@@ -191,7 +197,8 @@ resource "aws_lambda_function" "terraform_confirm_signUp" {
 
   environment {
       variables = {
-        "clienteID" = var.AWS_COGNITO_CLIENT_ID
+        "clienteID" = var.AWS_COGNITO_CLIENT_ID,
+        "apiUrl" = var.API_URL
       }
   }
 }
@@ -235,7 +242,7 @@ resource "aws_iam_policy" "api_gateway_access_policy" {
 
 resource "aws_iam_policy_attachment" "api_gateway_access_attachment" {
   name       = "api_gateway_access_attachment"
-  users      = ["restaurante34-cicd"]  # Provide the name of the existing IAM user here
+  users      = ["Adm-eks"]  # Provide the name of the existing IAM user here
   policy_arn = aws_iam_policy.api_gateway_access_policy.arn
 }
 
