@@ -3,7 +3,7 @@ import * as https from 'https';
 
 export const handler = async (event) => {
   const cognitoIdentityProvider = new CognitoIdentityProvider({ region: 'us-east-1' });
-  const { username, password, name, email, cpf } = JSON.parse(event.body);
+  const { username, password, name, email } = JSON.parse(event.body);
   const clienteID = process.env.clienteID;
   const apiUrl = process.env.API_URL;
 
@@ -19,10 +19,6 @@ export const handler = async (event) => {
       {
         Name: 'email',
         Value: email
-      },
-      {
-        Name: 'custom:cpf',
-        Value: cpf
       }
     ]
   };
@@ -30,7 +26,7 @@ export const handler = async (event) => {
   const postData = JSON.stringify({
     name,
     email,
-    cpf,
+    "cpf": username,
     usuario: {
       "login": username,
       "senha": password,
