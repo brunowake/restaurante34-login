@@ -23,7 +23,7 @@ export const handler = async (event) => {
   };
 
   const postData = JSON.stringify({
-    name,
+    "nome": name,
     email,
     "cpf": username,
     usuario: {
@@ -42,7 +42,7 @@ export const handler = async (event) => {
 
 
   try {
-    // await cognitoIdentityProvider.signUp(params);
+    await cognitoIdentityProvider.signUp(params);
 
     const response = await fetch(apiUrl, requestOptions);
 
@@ -50,7 +50,7 @@ export const handler = async (event) => {
       throw new Error('Network response was not ok');
     }
 
-    return { statusCode: 200, body: JSON.stringify({ "dataSuccess": request }) };
+    return { statusCode: 200, body: JSON.stringify({ "dataSuccess": response }) };
   } catch (error) {
     console.error('Error registering user:', error);
     return { statusCode: 500, body: JSON.stringify({ error: error.message }) };
@@ -63,7 +63,6 @@ export const handler = async (event) => {
  * {
     "username": "usuario",
     "password": "senha",
-    
     "name": "Nome Teste",
     "email": "email@gmail.com",
     "cpf": "11111111111"
