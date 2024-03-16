@@ -4,7 +4,7 @@ export const handler = async (event) => {
   const cognitoIdentityProvider = new CognitoIdentityProvider({ region: 'us-east-1' });
   const { username, password, name, email } = JSON.parse(event.body);
   const clienteID = process.env.clienteID;
-  const apiUrl = process.env.API_URL;
+  const apiUrl = process.env.apiUrl;
 
   const params = {
     ClientId: clienteID,
