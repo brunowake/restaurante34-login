@@ -1,5 +1,5 @@
 import { CognitoIdentityProvider } from "@aws-sdk/client-cognito-identity-provider";
-import * as https from 'https';
+import * as http from 'http';
 
 export const handler = async (event) => {
   const cognitoIdentityProvider = new CognitoIdentityProvider({ region: 'us-east-1' });
@@ -40,21 +40,23 @@ export const handler = async (event) => {
     }
   };
 
+  const handleResponse = (res) => {
+    let data = '';
+
+    res.on('data', (chunk) => {
+      data += chunk;
+    });
+
+    res.on('end', () => {
+      resolve(data);
+    });
+  };
+
   try {
-    await cognitoIdentityProvider.signUp(params);
+    // await cognitoIdentityProvider.signUp(params);
 
     const request = await new Promise((resolve, reject) => {
-      const req = https.request(apiUrl, requestOptions, (res) => {
-        let data = '';
-
-        res.on('data', (chunk) => {
-          data += chunk;
-        });
-
-        res.on('end', () => {
-          resolve(data);
-        });
-      });
+      const req = http.request(apiUrl, requestOptions, handleResponse)
 
       req.on('error', (error) => {
         reject(error);
@@ -64,7 +66,7 @@ export const handler = async (event) => {
       req.end();
     });
 
-    return { statusCode: 200, body: JSON.stringify(request) };
+    return { statusCode: 200, body: JSON.stringify({ "dataSuccess": request }) };
   } catch (error) {
     console.error('Error registering user:', error);
     return { statusCode: 500, body: JSON.stringify({ error: error.message }) };
