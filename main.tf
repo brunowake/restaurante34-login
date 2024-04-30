@@ -240,12 +240,6 @@ resource "aws_iam_policy" "api_gateway_access_policy" {
   })
 }
 
-resource "aws_iam_policy_attachment" "api_gateway_access_attachment" {
-  name       = "api_gateway_access_attachment"
-  users      = ["Adm-eks"]  # Provide the name of the existing IAM user here
-  policy_arn = aws_iam_policy.api_gateway_access_policy.arn
-}
-
 resource "aws_api_gateway_deployment" "prod_deployment" {
   rest_api_id = aws_api_gateway_rest_api.restaurante34-api.id
   stage_name  = "prod"
