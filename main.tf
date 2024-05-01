@@ -90,7 +90,7 @@ resource "aws_api_gateway_integration" "restaurante34-api_confirmSignUp_integrat
 resource "aws_api_gateway_resource" "restaurante34-api_getUsers_resource" {
   rest_api_id = aws_api_gateway_rest_api.restaurante34-api.id
   parent_id   = aws_api_gateway_rest_api.restaurante34-api.root_resource_id
-  path_part   = "signUp"  
+  path_part   = "getUsers"  
 }
 
 resource "aws_api_gateway_method" "restaurante34-api_getUsers_method" {
