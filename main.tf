@@ -105,7 +105,7 @@ resource "aws_api_gateway_integration" "restaurante34-api_getUsers" {
   http_method = aws_api_gateway_method.restaurante34-api_getUsers_method.http_method
   type        = "AWS_PROXY"
   integration_http_method = "POST"
-  uri         = aws_lambda_function.terraform_getUser.invoke_arn
+  uri         = aws_lambda_function.terraform_getUsers.invoke_arn
 }
 
 resource "aws_lambda_permission" "terraform_lambda_permission_getUsers" {
