@@ -293,11 +293,11 @@ resource "aws_iam_policy" "api_gateway_access_policy" {
 
 resource "aws_api_gateway_deployment" "prod_deployment" {
   rest_api_id = aws_api_gateway_rest_api.restaurante34-api.id
-  stage_name  = "prod/v2"
+  stage_name  = "prodv2"
 
 }
 resource "aws_api_gateway_stage" "prod_stage" {
   rest_api_id = aws_api_gateway_rest_api.restaurante34-api.id
-  stage_name  = "prod/v2"
+  stage_name  = "prodv2"
   deployment_id = aws_api_gateway_deployment.prod_deployment.id
 }
