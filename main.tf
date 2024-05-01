@@ -111,7 +111,7 @@ resource "aws_api_gateway_integration" "restaurante34-api_getUsers" {
 resource "aws_lambda_permission" "terraform_lambda_permission_getUsers" {
   statement_id  = "AllowAPIGatewayInvoke"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.terraform_getUser.function_name
+  function_name = aws_lambda_function.terraform_getUsers.function_name
   principal     = "apigateway.amazonaws.com"
 
   source_arn = "${aws_api_gateway_rest_api.restaurante34-api.execution_arn}/*/*"
