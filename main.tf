@@ -268,6 +268,16 @@ resource "aws_iam_role" "lambda_exec" {
       }
     ]
   })
+  policy {
+    policy = jsonencode({
+      Version = "2012-10-17"
+      Statement = [{
+        Effect   = "Allow"
+        Action   = "cognito-idp:ListUsers"
+        Resource = "arn:aws:cognito-idp:us-east-1:288728506391:userpool/3u1anpuol6pkv6ci3eoo70pmum"
+      }]
+    })
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_policy" {
